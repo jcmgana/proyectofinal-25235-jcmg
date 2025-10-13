@@ -1,7 +1,6 @@
 {
   "name": "preentrega",
   "private": true,
-  "homepage": "https://jcmgana.github.io/proyectofinal-25235-jcmg/", 
   "version": "0.1.0",
   "type": "module",
   "scripts": {
