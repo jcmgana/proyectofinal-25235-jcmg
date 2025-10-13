@@ -29,6 +29,7 @@ function Home() {
                                     ? "primary"
                                     : "outline-primary"
                             }
+                            
                             onClick={() => setSelectedCategory(cat.value)}
                         >
                             {cat.name}
