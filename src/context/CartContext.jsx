@@ -1,4 +1,3 @@
-// ./context/CartContext.jsx
 import React, { createContext, useState, useContext } from 'react';
 
 // 1. Crear el Contexto
@@ -6,7 +5,6 @@ export const CartContext = createContext();
 
 // 2. Crear el Proveedor (Provider) que envuelve a la app
 export const CartProvider = ({ children }) => {
-    // MOVEMOS EL ESTADO Y TODAS LAS FUNCIONES DE App.jsx AQUÍ
     const [carritoItems, setItemsCarrito] = useState([]);
 
     const handleIncrementarCantidad = (productoId) => {
@@ -39,10 +37,8 @@ export const CartProvider = ({ children }) => {
         alert(mensaje);
     };
     
-    // Calcula el total de ítems en el carrito (útil para el Header)
+    // Calcula el total de ítems en el carrito
     const totalItems = carritoItems.reduce((acc, item) => acc + item.cantidad, 0);
-
-    // Mueve el resto de las funciones (Vaciar, Finalizar, Decrementar)
 
     const handleVaciarCarrito = () => {
         setItemsCarrito([]);
@@ -67,6 +63,12 @@ export const CartProvider = ({ children }) => {
         );
     };
 
+    const handleQuitarDelCarrito = (productoId) => {
+        setItemsCarrito((prevItems) =>
+            prevItems.filter((item) => item.id !== productoId)
+        );
+    }
+
     // 3. Objeto de Valor a Compartir
     const contextValue = {
         carritoItems,
@@ -76,6 +78,7 @@ export const CartProvider = ({ children }) => {
         handleDecrementarCantidad,
         handleVaciarCarrito,
         handleFinalizarCompra,
+        handleQuitarDelCarrito,
     };
 
     return (
@@ -85,7 +88,7 @@ export const CartProvider = ({ children }) => {
     );
 };
 
-// 4. Hook personalizado para facilitar el uso (opcional pero recomendado)
+// 4. Hook personalizado para facilitar el uso
 export const useCart = () => {
     return useContext(CartContext);
 };

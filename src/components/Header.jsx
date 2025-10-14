@@ -1,4 +1,4 @@
-import React, { useState } from "react"; // 1. Importar useState
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -51,10 +51,9 @@ const Header = () => {
                         to="/"
                         className="d-flex align-items-center"
                     >
-                        {/* ... Logo y Título ... */}
+                        De todo un poco
                     </Navbar.Brand>
                     
-                    {/* El Nav.Toggle es necesario para el menú hamburguesa en móviles */}
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -64,7 +63,6 @@ const Header = () => {
                             </Nav.Link>
                             
                             {/* 3. Renderizar el CartWidget para mostrar el ícono y el contador */}
-                            {/* Eliminamos el <Link to="/carrito"> */}
                             <div className="d-flex align-items-center">
                                 <CartWidget onShowCart={handleShow} />
                             </div>

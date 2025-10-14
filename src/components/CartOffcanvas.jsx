@@ -2,6 +2,8 @@
 import React from 'react';
 import { Offcanvas } from 'react-bootstrap'; 
 import { useCart } from '../context/CartContext'; 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 import Contador from "./Contador"; 
 import Boton from "./Boton"; 
@@ -16,7 +18,8 @@ const CartOffcanvas = ({ show, handleClose }) => {
         handleVaciarCarrito, 
         handleFinalizarCompra, 
         handleIncrementarCantidad, 
-        handleDecrementarCantidad 
+        handleDecrementarCantidad,
+        handleQuitarDelCarrito,
     } = useCart();
     
     // 2. Cálculo del total
@@ -44,12 +47,21 @@ const CartOffcanvas = ({ show, handleClose }) => {
                                     key={producto.id} 
                                     className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom"
                                 >
+                                    <div className="d-flex align-items-center flex-grow-1">
+                                        <div 
+                                            className="me-2"
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() => handleQuitarDelCarrito(producto.id)} >
+                                            <FontAwesomeIcon icon={faTrashCan} size="sm" color='red' />
+                                        </div> 
                                     {/* Información y Contador */}
                                     <div className="producto-info">
                                         <h6 className="mb-0">{producto.title || producto.nombre}</h6> 
                                         <p className="text-muted small">${producto.price || producto.precio}</p>
                                     </div>
-                                    
+                                    </div>
+
+
                                     <div className="d-flex align-items-center">
                                         {/* 5. Contador para modificar la cantidad */}
                                         <Contador 
