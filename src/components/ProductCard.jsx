@@ -37,9 +37,7 @@ const ProductCard = ({ product, agregarAlCarrito, masInfo }) => {
                 <Card.Title>{product.title}</Card.Title>
                 <Card.Text>
                     <div className="d-flex justify-content-between align-items-center">
-                        <div>
                             <strong>${product.price}</strong>
-                        </div>
                         <Button
                             onClick={() => masInfo(product)}
                             variant="outline-info"
