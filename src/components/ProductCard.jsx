@@ -1,26 +1,27 @@
 import React, { useState } from "react";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import Contador from "./Contador";
 import Boton from "./Boton";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ product, agregarAlCarrito }) => {
     // 1. Estado local para la cantidad seleccionada (inicia en 1)
-    const [cantidadSeleccionada, setCantidadSeleccionada] = useState(1); 
+    const [cantidadSeleccionada, setCantidadSeleccionada] = useState(1);
 
     // 2. Manejadores de incremento/decremento para el Contador
     const handleIncrement = () => {
-        setCantidadSeleccionada(prev => prev + 1);
-    }
-    
+        setCantidadSeleccionada((prev) => prev + 1);
+    };
+
     const handleDecrement = () => {
-        setCantidadSeleccionada(prev => (prev > 1 ? prev - 1 : 1));
-    }
+        setCantidadSeleccionada((prev) => (prev > 1 ? prev - 1 : 1));
+    };
 
     // 3. Manejador para agregar al carrito, que usa la función pasada por props
     const handleAddToCart = () => {
         agregarAlCarrito(product, cantidadSeleccionada);
         setCantidadSeleccionada(1);
-    }
+    };
 
     return (
         <Card className="h-100 d-flex flex-column">
@@ -35,27 +36,38 @@ const ProductCard = ({ product, agregarAlCarrito }) => {
             <Card.Body className="d-flex flex-column">
                 <Card.Title>{product.title}</Card.Title>
                 <Card.Text>
-                    <strong>${product.price}</strong>
+                    <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>${product.price}</strong>
+                        </div>
+                        <Button
+                            as={Link}
+                            to={`/tienda/${product.id}`}
+                            variant="info"
+                            size="sm"
+                        >
+                            + Info
+                        </Button>
+                    </div>
                 </Card.Text>
-                
+
                 {/* 4. Implementación del Contador */}
                 <div className="d-flex justify-content-between align-items-center mb-3">
                     <span className="fw-bold">Cantidad:</span>
-                    <Contador 
+                    <Contador
                         cantidad={cantidadSeleccionada}
                         onIncrement={handleIncrement}
                         onDecrement={handleDecrement}
                     />
                 </div>
-                
+
                 {/* 5. Botón de Agregar al Carrito */}
                 <Boton
                     texto={`Agregar ${cantidadSeleccionada} al carrito`}
                     tipo="Agregar"
                     onClick={handleAddToCart}
                     className="mt-auto"
-                >
-                </Boton>
+                ></Boton>
             </Card.Body>
         </Card>
     );

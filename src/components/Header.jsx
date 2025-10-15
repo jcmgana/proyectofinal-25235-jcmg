@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faTruckFast } from "@fortawesome/free-solid-svg-icons";
+
+
 
 import CartOffcanvas from "./CartOffcanvas";
 import { useCart } from "../context/CartContext";
@@ -51,7 +53,8 @@ const Header = () => {
                         to="/"
                         className="d-flex align-items-center"
                     >
-                        De todo un poco
+                        <FontAwesomeIcon icon={faTruckFast} size="lg" className="me-3" />
+                        Dummy Store
                     </Navbar.Brand>
 
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -73,10 +76,10 @@ const Header = () => {
 
                             <Nav.Link
                                 as={NavLink}
-                                to="/productos"
+                                to="/tienda"
                                 className={({ isActive }) => isActive ? "me-3 fw-bolder text-dark" : "me-3 text-white-50"}
                             >
-                                Productos
+                                Tienda
                             </Nav.Link>
 
                             <div className="d-flex align-items-center ms-3">

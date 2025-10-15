@@ -3,6 +3,8 @@ import { useCart } from "../context/CartContext";
 import { Row, Col } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 
+
+
 const ProductList = ({ category = null }) => {
     const { handleAgregarAlCarrito } = useCart();
     const [products, setProducts] = useState([]);
