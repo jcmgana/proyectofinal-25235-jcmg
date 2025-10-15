@@ -1,38 +1,38 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Link, NavLink } from "react-router-dom";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
-// Importamos el Offcanvas y el hook para el contador de ítems
-import CartOffcanvas from './CartOffcanvas'; 
-import { useCart } from '../context/CartContext'; 
+import CartOffcanvas from "./CartOffcanvas";
+import { useCart } from "../context/CartContext";
 
 // Componente para el Ícono del Carrito y el Contador (Widget)
 const CartWidget = ({ onShowCart }) => {
-    const { totalItems } = useCart(); 
+    const { totalItems } = useCart();
 
     return (
         // El div tiene el evento onClick para abrir el Offcanvas
-        <div 
-            className="text-white position-relative" 
-            onClick={onShowCart} 
-            style={{ cursor: 'pointer' }}
+        <div
+            className="text-white position-relative"
+            onClick={onShowCart}
+            style={{ cursor: "pointer" }}
         >
             <FontAwesomeIcon icon={faShoppingCart} size="lg" />
             {totalItems > 0 && (
-                <span 
-                    className="position-absolute translate-middle badge rounded-pill bg-danger" 
-                    style={{ top: '0', right: '-10px', fontSize: '0.7em' }}
+                <span
+                    className="position-absolute translate-middle badge rounded-pill bg-danger"
+                    style={{ top: "0", right: "-10px", fontSize: "0.7em" }}
                 >
                     {totalItems}
-                    <span className="visually-hidden">Productos en carrito</span>
+                    <span className="visually-hidden">
+                        Productos en carrito
+                    </span>
                 </span>
             )}
         </div>
     );
 };
-
 
 const Header = () => {
     // 2. Estado para controlar la visibilidad del Offcanvas
@@ -53,17 +53,45 @@ const Header = () => {
                     >
                         De todo un poco
                     </Navbar.Brand>
-                    
+
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    
+
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ms-auto align-items-center">
-                            <Nav.Link as={Link} to="/productos" className="me-3">
+                            <Nav.Link
+                                as={NavLink} // Usamos NavLink
+                                to="/"
+                                end // IMPORTANTE: Para que no se active siempre que la ruta comienza con "/"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "me-3 fw-bolder text-light-decoration-underline"
+                                        : "me-3 text-white-50 "
+                                }
+                            >
+                                Home
+                            </Nav.Link>
+
+                            <Nav.Link
+                                as={NavLink}
+                                to="/productos"
+                                className={({ isActive }) => isActive ? "me-3 fw-bolder text-dark" : "me-3 text-white-50"}
+                            >
                                 Productos
                             </Nav.Link>
-                            
+
+                            <div className="d-flex align-items-center ms-3">
+                                <Button
+                                    variant="outline-light"
+                                    as={NavLink}
+                                    to="/administracion"
+                                    className={({ isActive }) => isActive ? "me-3 fw-bold text-dark" : "me-3 text-white-50"}
+                                >
+                                    Administración
+                                </Button>
+                            </div>
+
                             {/* 3. Renderizar el CartWidget para mostrar el ícono y el contador */}
-                            <div className="d-flex align-items-center">
+                            <div className="d-flex align-items-center ms-3">
                                 <CartWidget onShowCart={handleShow} />
                             </div>
                         </Nav>
@@ -72,10 +100,7 @@ const Header = () => {
             </Navbar>
 
             {/* 4. Renderizar el CartOffcanvas, que será el panel lateral */}
-            <CartOffcanvas 
-                show={showCart} 
-                handleClose={handleClose} 
-            />
+            <CartOffcanvas show={showCart} handleClose={handleClose} />
         </>
     );
 };
