@@ -3,7 +3,7 @@ import React from 'react';
 import { Offcanvas } from 'react-bootstrap'; 
 import { useCart } from '../context/CartContext'; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 import Contador from "./Contador"; 
 import Boton from "./Boton"; 
@@ -31,7 +31,8 @@ const CartOffcanvas = ({ show, handleClose }) => {
             
             <Offcanvas.Header closeButton>
                 <Offcanvas.Title>
-                    🛒 Carrito de Compras ({carritoItems.length} ítems)
+                    <FontAwesomeIcon icon={faShoppingCart} size="sm" />
+                    Carrito de Compras
                 </Offcanvas.Title>
             </Offcanvas.Header>
             

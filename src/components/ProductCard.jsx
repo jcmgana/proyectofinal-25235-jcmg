@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import Contador from "./Contador";
 import Boton from "./Boton";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-const ProductCard = ({ product, agregarAlCarrito }) => {
+const ProductCard = ({ product, agregarAlCarrito, masInfo }) => {
     // 1. Estado local para la cantidad seleccionada (inicia en 1)
     const [cantidadSeleccionada, setCantidadSeleccionada] = useState(1);
 
@@ -41,9 +41,8 @@ const ProductCard = ({ product, agregarAlCarrito }) => {
                             <strong>${product.price}</strong>
                         </div>
                         <Button
-                            as={Link}
-                            to={`/tienda/${product.id}`}
-                            variant="info"
+                            onClick={() => masInfo(product)}
+                            variant="outline-info"
                             size="sm"
                         >
                             + Info

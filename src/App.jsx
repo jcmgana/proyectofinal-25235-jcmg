@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import ProductList from "./components/ProductList";
 import ProductDetail from "./components/ProductDetail";
 import Login from "./components/Login";
+import BotonCarritoFlotante from "./components/BotonCarritoFlotante";
 
 import { CartProvider } from "./context/CartContext";
 
@@ -23,6 +24,7 @@ function App() {
                     <Route path="/tienda/:id" element={<ProductDetail />} />
                     <Route path="/administracion" element={<Login />} />
                 </Routes>
+                <BotonCarritoFlotante />
                 <Footer />
             </CartProvider>
         </Router>

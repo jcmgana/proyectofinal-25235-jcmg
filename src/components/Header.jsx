@@ -4,14 +4,15 @@ import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 
-
-
-import CartOffcanvas from "./CartOffcanvas";
+import CarritoOffcanvas from "./CarritoOffcanvas";
 import { useCart } from "../context/CartContext";
 
 // Componente para el Ícono del Carrito y el Contador (Widget)
-const CartWidget = ({ onShowCart }) => {
+const CartWidget = ({ onShowCart, isOffcanvasOpen }) => {
     const { totalItems } = useCart();
+    if (isOffcanvasOpen) {
+        return null; 
+    }
 
     return (
         // El div tiene el evento onClick para abrir el Offcanvas
@@ -53,7 +54,11 @@ const Header = () => {
                         to="/"
                         className="d-flex align-items-center"
                     >
-                        <FontAwesomeIcon icon={faTruckFast} size="lg" className="me-3" />
+                        <FontAwesomeIcon
+                            icon={faTruckFast}
+                            size="lg"
+                            className="me-3"
+                        />
                         Dummy Store
                     </Navbar.Brand>
 
@@ -77,7 +82,11 @@ const Header = () => {
                             <Nav.Link
                                 as={NavLink}
                                 to="/tienda"
-                                className={({ isActive }) => isActive ? "me-3 fw-bolder text-dark" : "me-3 text-white-50"}
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "me-3 fw-bolder text-dark"
+                                        : "me-3 text-white-50"
+                                }
                             >
                                 Tienda
                             </Nav.Link>
@@ -87,7 +96,11 @@ const Header = () => {
                                     variant="outline-light"
                                     as={NavLink}
                                     to="/administracion"
-                                    className={({ isActive }) => isActive ? "me-3 fw-bold text-dark" : "me-3 text-white-50"}
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? "me-3 fw-bold text-dark"
+                                            : "me-3 text-white-50"
+                                    }
                                 >
                                     Administración
                                 </Button>
@@ -95,7 +108,7 @@ const Header = () => {
 
                             {/* 3. Renderizar el CartWidget para mostrar el ícono y el contador */}
                             <div className="d-flex align-items-center ms-3">
-                                <CartWidget onShowCart={handleShow} />
+                                <CartWidget onShowCart={handleShow} isOffcanvasOpen={showCart} />
                             </div>
                         </Nav>
                     </Navbar.Collapse>
@@ -103,7 +116,7 @@ const Header = () => {
             </Navbar>
 
             {/* 4. Renderizar el CartOffcanvas, que será el panel lateral */}
-            <CartOffcanvas show={showCart} handleClose={handleClose} />
+            <CarritoOffcanvas show={showCart} handleClose={handleClose} />
         </>
     );
 };
