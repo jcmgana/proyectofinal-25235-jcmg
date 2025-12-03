@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Contador from "./Contador";
-import { Link } from "react-router-dom";
 import Spinner from "./Spinner";
 
-const ProductDetail = ({ id, agregarAlCarrito, modalMode = false }) => {
+const ProductDetail = ({ id, agregarAlCarrito, modalMode = false, onClose }) => {
     const params = useParams();
     const productId = id || params.id;
     const { handleAgregarAlCarrito } = useCart();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     // 1. Estado local para la cantidad seleccionada (inicia en 1)
     const [cantidadSeleccionada, setCantidadSeleccionada] = useState(1);
@@ -36,7 +36,7 @@ const ProductDetail = ({ id, agregarAlCarrito, modalMode = false }) => {
             .then((data) => setProduct(data))
             .catch((err) => setError(err.message))
             .finally(() => setLoading(false));
-    }, [id]);
+    }, [productId]);
 
     if (loading) return <Spinner />;
     if (error) return <div className="alert alert-danger">{error}</div>;
@@ -80,9 +80,8 @@ const ProductDetail = ({ id, agregarAlCarrito, modalMode = false }) => {
                     </Button>
                     {!modalMode && (
                         <Button
-                            as={Link}
                             variant="outline-danger"
-                            to={`/tienda`}
+                            onClick={onClose}
                             className="ms-3"
                         >
                             Volver a la tienda

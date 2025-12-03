@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart, faTruckFast } from "@fortawesome/free-solid-svg-icons";
+import {
+    faShoppingCart,
+    faTruckFast,
+    faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../context/AuthContext";
 
 import CarritoOffcanvas from "./CarritoOffcanvas";
 import { useCart } from "../context/CartContext";
@@ -11,7 +16,7 @@ import { useCart } from "../context/CartContext";
 const CartWidget = ({ onShowCart, isOffcanvasOpen }) => {
     const { totalItems } = useCart();
     if (isOffcanvasOpen) {
-        return null; 
+        return null;
     }
 
     return (
@@ -21,7 +26,11 @@ const CartWidget = ({ onShowCart, isOffcanvasOpen }) => {
             onClick={onShowCart}
             style={{ cursor: "pointer" }}
         >
-            <FontAwesomeIcon icon={faShoppingCart} size="lg" />
+            <FontAwesomeIcon
+                icon={faShoppingCart}
+                size="lg"
+                title="Ver Carrito"
+            />
             {totalItems > 0 && (
                 <span
                     className="position-absolute translate-middle badge rounded-pill bg-danger"
@@ -38,6 +47,8 @@ const CartWidget = ({ onShowCart, isOffcanvasOpen }) => {
 };
 
 const Header = () => {
+    const { isLoggedIn, logout } = useAuth();
+
     // 2. Estado para controlar la visibilidad del Offcanvas
     const [showCart, setShowCart] = useState(false);
 
@@ -57,7 +68,7 @@ const Header = () => {
                         <FontAwesomeIcon
                             icon={faTruckFast}
                             size="lg"
-                            className="me-3"
+                            className="me-3 text-info"
                         />
                         Dummy Store
                     </Navbar.Brand>
@@ -84,45 +95,61 @@ const Header = () => {
                                 to="/tienda"
                                 className={({ isActive }) =>
                                     isActive
-                                        ? "me-3 fw-bolder text-dark"
+                                        ? "me-3 fw-bolder text-info"
                                         : "me-3 text-white-50"
                                 }
                             >
                                 Tienda
                             </Nav.Link>
 
-                                                        <Nav.Link
+                            <Nav.Link
                                 as={NavLink}
                                 to="/ofertas"
                                 className={({ isActive }) =>
                                     isActive
-                                        ? "me-3 fw-bolder text-dark"
+                                        ? "me-3 fw-bolder text-info"
                                         : "me-3 text-white-50"
                                 }
                             >
                                 Ofertas
                             </Nav.Link>
 
-                                                        <Nav.Link
+                            <Nav.Link
                                 as={NavLink}
                                 to="/infaltables"
                                 className={({ isActive }) =>
                                     isActive
-                                        ? "me-3 fw-bolder text-dark"
+                                        ? "me-3 fw-bolder text-info"
                                         : "me-3 text-white-50"
                                 }
                             >
                                 Infaltables
                             </Nav.Link>
 
+                            <Nav.Link
+                                as={NavLink}
+                                to="/contacto"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "me-3 fw-bolder text-info"
+                                        : "me-3 text-white-50"
+                                }
+                            >
+                                Contacto
+                            </Nav.Link>
+
                             <div className="d-flex align-items-center ms-3">
                                 <Button
                                     variant="outline-light"
                                     as={NavLink}
-                                    to="/administracion"
+                                    to={
+                                        isLoggedIn
+                                            ? "/crudproductos"
+                                            : "/administracion"
+                                    }
                                     className={({ isActive }) =>
                                         isActive
-                                            ? "me-3 fw-bold text-dark"
+                                            ? "me-3 fw-bold text-dark bg-light"
                                             : "me-3 text-white-50"
                                     }
                                 >
@@ -132,7 +159,25 @@ const Header = () => {
 
                             {/* 3. Renderizar el CartWidget para mostrar el ícono y el contador */}
                             <div className="d-flex align-items-center ms-3">
-                                <CartWidget onShowCart={handleShow} isOffcanvasOpen={showCart} />
+                                <CartWidget
+                                    onShowCart={handleShow}
+                                    isOffcanvasOpen={showCart}
+                                />
+                                {/* Ícono de Cierre de Sesión (solo si está logueado) */}
+                                {isLoggedIn && (
+                                    <div
+                                        className="text-white me-3 ms-3"
+                                        onClick={logout} // Llama a la función de logout al hacer clic
+                                        style={{ cursor: "pointer" }}
+                                        title="Cerrar Sesión" // Tooltip
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faRightFromBracket}
+                                            size="lg"
+                                            color="red"
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </Nav>
                     </Navbar.Collapse>

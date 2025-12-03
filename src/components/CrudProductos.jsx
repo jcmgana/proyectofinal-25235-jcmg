@@ -151,9 +151,9 @@ const CrudProductos = () => {
                             <td>${Number(prod.price).toFixed(2)}</td>
                             <td>{prod.stock}</td>
                             <td>
-                                {prod.image?.startsWith("http") ? (
+                                {prod.thumbnail?.startsWith("http") ? (
                                     <img
-                                        src={prod.image}
+                                        src={prod.thumbnail}
                                         alt={prod.title}
                                         width={50}
                                         height={50}

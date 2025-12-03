@@ -8,6 +8,7 @@ import ProductList from "./components/ProductList";
 import ProductDetail from "./components/ProductDetail";
 import Ofertas from "./components/Ofertas";
 import Infaltables from "./components/Infaltables";
+import Contacto from "./components/Contacto";
 import Login from "./components/Login";
 import BotonCarritoFlotante from "./components/BotonCarritoFlotante";
 import CrudProductos from "./components/CrudProductos";
@@ -27,6 +28,7 @@ function App() {
                     <Route path="/tienda/:id" element={<ProductDetail />} />
                     <Route path="/ofertas" element={<Ofertas />} />
                     <Route path="/infaltables" element={<Infaltables />} />
+                    <Route path="/contacto" element={<Contacto />} />
                     <Route path="/administracion" element={<Login />} />
                     <Route element={<ProtectedRoute redirectTo="/login" />}>
                         {/* Cualquier ruta dentro de este Route requiere autenticación.

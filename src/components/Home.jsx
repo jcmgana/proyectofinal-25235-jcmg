@@ -143,7 +143,7 @@ function Home() {
                             variant="outline-primary"
                             onClick={() => navigate("/tienda")}
                         >
-                            Ver Todos los Productos
+                            Ir a nuestra Tienda
                         </Button>
                         <Button
                             variant="outline-secondary"
