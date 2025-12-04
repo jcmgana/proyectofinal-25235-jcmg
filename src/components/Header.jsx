@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +8,6 @@ import {
     faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthContext";
-
 import CarritoOffcanvas from "./CarritoOffcanvas";
 import { useCart } from "../context/CartContext";
 
@@ -53,16 +52,52 @@ const Header = () => {
     const [showCart, setShowCart] = useState(false);
 
     const handleClose = () => setShowCart(false);
-    const handleShow = () => setShowCart(true);
+    const handleShow = () => {
+        setShowCart(true);
+        setExpanded(false);
+    };
+
+    // 3.  Estado para controlar la expansión del Navbar en móviles
+    const [expanded, setExpanded] = useState(false);
+    const navRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                expanded &&
+                navRef.current &&
+                !navRef.current.contains(event.target)
+            ) {
+                setExpanded(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("touchstart", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("touchstart", handleClickOutside);
+        };
+    }, [expanded]);
 
     return (
         // Envolvemos el contenido principal en un fragmento para incluir el Offcanvas
         <>
-            <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
+            <Navbar
+                bg="dark"
+                variant="dark"
+                expand="lg"
+                className="mb-4"
+                expanded={expanded}
+                onToggle={(isExpanded) => setExpanded(isExpanded)}
+                ref={navRef}
+            >
                 <Container>
                     <Navbar.Brand
                         as={Link}
                         to="/"
+                        onClick={() => setExpanded(false)}
                         className="d-flex align-items-center"
                     >
                         <FontAwesomeIcon
@@ -81,6 +116,7 @@ const Header = () => {
                                 as={NavLink} // Usamos NavLink
                                 to="/"
                                 end // IMPORTANTE: Para que no se active siempre que la ruta comienza con "/"
+                                onClick={() => setExpanded(false)}
                                 className={({ isActive }) =>
                                     isActive
                                         ? "me-3 fw-bolder text-light-decoration-underline"
@@ -93,6 +129,7 @@ const Header = () => {
                             <Nav.Link
                                 as={NavLink}
                                 to="/tienda"
+                                onClick={() => setExpanded(false)}
                                 className={({ isActive }) =>
                                     isActive
                                         ? "me-3 fw-bolder text-info"
@@ -105,6 +142,7 @@ const Header = () => {
                             <Nav.Link
                                 as={NavLink}
                                 to="/ofertas"
+                                onClick={() => setExpanded(false)}
                                 className={({ isActive }) =>
                                     isActive
                                         ? "me-3 fw-bolder text-info"
@@ -117,6 +155,7 @@ const Header = () => {
                             <Nav.Link
                                 as={NavLink}
                                 to="/infaltables"
+                                onClick={() => setExpanded(false)}
                                 className={({ isActive }) =>
                                     isActive
                                         ? "me-3 fw-bolder text-info"
@@ -129,6 +168,7 @@ const Header = () => {
                             <Nav.Link
                                 as={NavLink}
                                 to="/contacto"
+                                onClick={() => setExpanded(false)}
                                 className={({ isActive }) =>
                                     isActive
                                         ? "me-3 fw-bolder text-info"
@@ -147,6 +187,7 @@ const Header = () => {
                                             ? "/crudproductos"
                                             : "/administracion"
                                     }
+                                    onClick={() => setExpanded(false)}
                                     className={({ isActive }) =>
                                         isActive
                                             ? "me-3 fw-bold text-dark bg-light"
@@ -158,7 +199,7 @@ const Header = () => {
                             </div>
 
                             {/* 3. Renderizar el CartWidget para mostrar el ícono y el contador */}
-                            <div className="d-flex align-items-center ms-3">
+                            <div className="d-flex align-items-center ms-3 mt-3 mt-md-0">
                                 <CartWidget
                                     onShowCart={handleShow}
                                     isOffcanvasOpen={showCart}

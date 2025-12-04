@@ -1,5 +1,3 @@
-
-import React from 'react';
 import { Offcanvas } from 'react-bootstrap'; 
 import { useCart } from '../context/CartContext'; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -52,8 +50,10 @@ const CartOffcanvas = ({ show, handleClose }) => {
                                         <div 
                                             className="me-2"
                                             style={{ cursor: 'pointer' }}
-                                            onClick={() => handleQuitarDelCarrito(producto.id)} >
+                                            onClick={() => handleQuitarDelCarrito(producto.id)}
+                                            >
                                             <FontAwesomeIcon icon={faTrashCan} size="sm" color='red' />
+                                            
                                         </div> 
                                     {/* Información y Contador */}
                                     <div className="producto-info">

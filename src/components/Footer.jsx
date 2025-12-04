@@ -9,19 +9,28 @@ const Footer = () => {
                 <Row>
                     <Col md={6}>
                         <p className="mb-0">
-                            2025 - Entrega final  - Derechos
-                            Reservados - Versión 1.12.0.2
+                            2025 - Entrega final - Derechos Reservados - Versión
+                            1.12.0.2
                         </p>
                     </Col>
-                    <Col md={6}>
-                        <div>
-                            <a href="https://www.facebook.com" className="text-white me-3">
+                    <Col xs={12} md={6} className="text-md-end">
+                        <div className="mt-3 mb-md-0">
+                            <a
+                                href="https://www.facebook.com"
+                                className="text-white me-3"
+                            >
                                 <i className="fa fa-facebook fa-2x"></i>
                             </a>
-                            <a href="https://www.twitter.com" className="text-white me-3">
+                            <a
+                                href="https://www.twitter.com"
+                                className="text-white me-3"
+                            >
                                 <i className="fa fa-twitter fa-2x"></i>
                             </a>
-                            <a href="https://www.instagram.com" className="text-white">
+                            <a
+                                href="https://www.instagram.com"
+                                className="text-white"
+                            >
                                 <i className="fa fa-instagram fa-2x"></i>
                             </a>
                         </div>

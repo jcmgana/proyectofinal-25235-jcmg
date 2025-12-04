@@ -35,18 +35,19 @@ const ProductCard = ({ product, agregarAlCarrito, masInfo }) => {
 
             <Card.Body className="d-flex flex-column">
                 <Card.Title>{product.title}</Card.Title>
-                <Card.Text>
-                    <div className="d-flex justify-content-between align-items-center">
-                            <strong>${product.price}</strong>
-                        <Button
-                            onClick={() => masInfo(product)}
-                            variant="outline-info"
-                            size="sm"
-                        >
-                            + Info
-                        </Button>
-                    </div>
-                </Card.Text>
+                <div className="d-flex justify-content-between align-items-center">
+                    <Card.Text>
+                        <strong>${product.price}</strong>
+                    </Card.Text>
+                    <Button
+                        onClick={() => masInfo(product)}
+                        variant="outline-info"
+                        size="sm"
+                        className="me-2"
+                    >
+                        + Info
+                    </Button>
+                </div>
 
                 {/* 4. Implementación del Contador */}
                 <div className="d-flex justify-content-between align-items-center mb-3">

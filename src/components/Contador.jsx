@@ -1,4 +1,3 @@
-import React from "react";
 
 function Contador({ cantidad, onIncrement, onDecrement, min = 1, max = 10 }) {
 

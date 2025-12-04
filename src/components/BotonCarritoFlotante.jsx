@@ -11,7 +11,10 @@ const BotonCarritoFlotante = () => {
     const [showCart, setShowCart] = useState(false); // Estado para el Offcanvas
 
     // Calculamos la cantidad total de items
-    const totalItems = carritoItems.reduce((acc, item) => acc + item.cantidad, 0);
+    const totalItems = carritoItems.reduce(
+        (acc, item) => acc + item.cantidad,
+        0
+    );
 
     const handleShow = () => setShowCart(true);
     const handleClose = () => setShowCart(false);
@@ -27,7 +30,7 @@ const BotonCarritoFlotante = () => {
 
     // 🚀 CAMBIO CLAVE: Ocultar el botón si showCart es true 🚀
     // Si no es visible por scroll O el Offcanvas está abierto, no renderizamos el botón flotante.
-    const shouldShowButton = isVisible && !showCart;
+    const shouldShowButton = isVisible && !showCart && totalItems > 0;
 
     return (
         <>
@@ -60,10 +63,7 @@ const BotonCarritoFlotante = () => {
             )}
 
             {/* Offcanvas del carrito */}
-            <CartOffcanvas 
-                show={showCart} 
-                handleClose={handleClose} 
-            />
+            <CartOffcanvas show={showCart} handleClose={handleClose} />
         </>
     );
 };

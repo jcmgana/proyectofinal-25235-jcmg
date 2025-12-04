@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./components/Header";
 import Home from "./components/Home";
@@ -15,6 +17,7 @@ import CrudProductos from "./components/CrudProductos";
 import { CartProvider } from "./context/CartContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+import "./styles/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -43,6 +46,18 @@ function App() {
                         element={<h2>404 - Página no encontrada</h2>}
                     />
                 </Routes>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                />
                 <BotonCarritoFlotante />
                 <Footer />
             </CartProvider>

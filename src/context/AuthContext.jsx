@@ -1,5 +1,6 @@
 // src/context/AuthContext.jsx
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext } from "react";
+import { toast } from "react-toastify";
 
 // 1. Crear el Contexto
 const AuthContext = createContext();
@@ -13,7 +14,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     // Inicializar el estado leyendo el localStorage
     const [isLoggedIn, setIsLoggedIn] = useState(
-        localStorage.getItem('isLoggedIn') === 'true'
+        localStorage.getItem("isLoggedIn") === "true"
     );
 
     const [message, setMessage] = useState(null);
@@ -21,23 +22,15 @@ export const AuthProvider = ({ children }) => {
     // Función de LOGIN
     const login = () => {
         setIsLoggedIn(true);
-        localStorage.setItem('isLoggedIn', 'true'); // Persistir el estado
+        localStorage.setItem("isLoggedIn", "true"); // Persistir el estado
         setMessage(null);
     };
 
     // Función de LOGOUT (necesaria para salir de la administración)
     const logout = () => {
         setIsLoggedIn(false);
-        localStorage.removeItem('isLoggedIn'); // Eliminar el estado persistido
-        localStorage.setItem('logoutMessage', 'Has cerrado sesión exitosamente.'); 
-    };
-
-    const getLogoutMessage = () => {
-        const msg = localStorage.getItem('logoutMessage');
-        if (msg) {
-            localStorage.removeItem('logoutMessage'); // Limpiar después de leer
-        }
-        return msg;
+        localStorage.removeItem("isLoggedIn"); // Eliminar el estado persistido
+        toast.info("Has cerrado tu sesión con éxito.");
     };
 
     // Objeto de valor proporcionado por el contexto
@@ -45,8 +38,9 @@ export const AuthProvider = ({ children }) => {
         isLoggedIn,
         login,
         logout,
-        getLogoutMessage
     };
 
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    );
 };

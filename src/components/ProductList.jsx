@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
-import { Row, Col, Modal, Container, Form, Alert, Pagination } from "react-bootstrap";
+import {
+    Row,
+    Col,
+    Modal,
+    Container,
+    Form,
+    Alert,
+    Pagination,
+} from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import ProductDetail from "./ProductDetail";
 import Spinner from "./Spinner";
+import { Helmet } from "react-helmet";
 
 const ProductList = ({ category = null }) => {
     const { handleAgregarAlCarrito } = useCart();
@@ -97,7 +106,10 @@ const ProductList = ({ category = null }) => {
     // Calcular índices de paginación
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const currentProducts = filteredProducts.slice(
+        indexOfFirstProduct,
+        indexOfLastProduct
+    );
 
     // Calcular número total de páginas
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -105,7 +117,7 @@ const ProductList = ({ category = null }) => {
     // Cambiar de página
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     // Generar items de paginación
@@ -139,7 +151,9 @@ const ProductList = ({ category = null }) => {
             );
 
             if (currentPage > 3) {
-                items.push(<Pagination.Ellipsis key="ellipsis-start" disabled />);
+                items.push(
+                    <Pagination.Ellipsis key="ellipsis-start" disabled />
+                );
             }
 
             const startPage = Math.max(2, currentPage - 1);
@@ -176,90 +190,112 @@ const ProductList = ({ category = null }) => {
     };
 
     return (
-        <Container>
-            <Form.Control
-                type="text"
-                placeholder="Buscar Productos"
-                className="mb-4"
-                value={barraDeBusqueda}
-                onChange={(e) => setBarraDeBusqueda(e.target.value)}
-            />
+        <>
+            <Helmet>
+                <title>Tienda</title>
+                <meta
+                    name="Dummy Store- Tienda"
+                    content="Explora nuestra amplia variedad de productos . Encuentra lo que necesitas en DummyStore."
+                />
+            </Helmet>
+            <Container>
+                <Form.Control
+                    id="Barra de búsqueda"
+                    type="text"
+                    placeholder="Buscar Productos"
+                    className="mb-4"
+                    value={barraDeBusqueda}
+                    onChange={(e) => setBarraDeBusqueda(e.target.value)}
+                />
 
-            {filteredProducts.length === 0 ? (
-                <Alert variant="warning">
-                    No se encontraron productos que coincidan con tu búsqueda.
-                </Alert>
-            ) : (
-                <>
-                    <Row>
-                        {currentProducts.map((product) => (
-                            <Col md={4} key={product.id} className="mb-4">
-                                <ProductCard
-                                    product={product}
-                                    agregarAlCarrito={handleAgregarAlCarrito}
-                                    masInfo={handleShowModal}
-                                />
-                            </Col>
-                        ))}
-                    </Row>
+                {filteredProducts.length === 0 ? (
+                    <Alert variant="warning">
+                        No se encontraron productos que coincidan con tu
+                        búsqueda.
+                    </Alert>
+                ) : (
+                    <>
+                        <Row>
+                            {currentProducts.map((product) => (
+                                <Col md={4} key={product.id} className="mb-4">
+                                    <ProductCard
+                                        product={product}
+                                        agregarAlCarrito={
+                                            handleAgregarAlCarrito
+                                        }
+                                        masInfo={handleShowModal}
+                                    />
+                                </Col>
+                            ))}
+                        </Row>
 
-                    {totalPages > 1 && (
-                        <div className="d-flex justify-content-center mt-4 mb-4">
-                            <Pagination>
-                                <Pagination.First
-                                    onClick={() => paginate(1)}
-                                    disabled={currentPage === 1}
-                                />
-                                <Pagination.Prev
-                                    onClick={() => paginate(currentPage - 1)}
-                                    disabled={currentPage === 1}
-                                />
-                                
-                                {renderPaginationItems()}
-                                
-                                <Pagination.Next
-                                    onClick={() => paginate(currentPage + 1)}
-                                    disabled={currentPage === totalPages}
-                                />
-                                <Pagination.Last
-                                    onClick={() => paginate(totalPages)}
-                                    disabled={currentPage === totalPages}
-                                />
-                            </Pagination>
+                        {totalPages > 1 && (
+                            <div className="d-flex justify-content-center mt-4 mb-4">
+                                <Pagination>
+                                    <Pagination.First
+                                        onClick={() => paginate(1)}
+                                        disabled={currentPage === 1}
+                                    />
+                                    <Pagination.Prev
+                                        onClick={() =>
+                                            paginate(currentPage - 1)
+                                        }
+                                        disabled={currentPage === 1}
+                                    />
+
+                                    {renderPaginationItems()}
+
+                                    <Pagination.Next
+                                        onClick={() =>
+                                            paginate(currentPage + 1)
+                                        }
+                                        disabled={currentPage === totalPages}
+                                    />
+                                    <Pagination.Last
+                                        onClick={() => paginate(totalPages)}
+                                        disabled={currentPage === totalPages}
+                                    />
+                                </Pagination>
+                            </div>
+                        )}
+
+                        <div className="text-center text-muted mb-3">
+                            Mostrando {indexOfFirstProduct + 1} -{" "}
+                            {Math.min(
+                                indexOfLastProduct,
+                                filteredProducts.length
+                            )}{" "}
+                            de {filteredProducts.length} productos
                         </div>
-                    )}
+                    </>
+                )}
 
-                    <div className="text-center text-muted mb-3">
-                        Mostrando {indexOfFirstProduct + 1} - {Math.min(indexOfLastProduct, filteredProducts.length)} de {filteredProducts.length} productos
-                    </div>
-                </>
-            )}
-
-            <Modal
-                show={showModal}
-                onHide={handleCloseModal}
-                size="lg"
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        {selectedProduct
-                            ? selectedProduct.title
-                            : "Detalles del Producto"}
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {selectedProduct ? (
-                        <ProductDetail
-                            id={selectedProduct.id}
-                            onClose={handleCloseModal}
-                        />
-                    ) : (
-                        <p>Cargando detalles...</p>
-                    )}
-                </Modal.Body>
-            </Modal>
-        </Container>
+                <Modal
+                    show={showModal}
+                    onHide={handleCloseModal}
+                    size="lg"
+                    centered
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            {selectedProduct
+                                ? selectedProduct.title
+                                : "Detalles del Producto"}
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {selectedProduct ? (
+                            <ProductDetail
+                                id={selectedProduct.id}
+                                onClose={handleCloseModal}
+                            />
+                        ) : (
+                            <p>Cargando detalles...</p>
+                        )}
+                    </Modal.Body>
+                </Modal>
+            </Container>
+        </>
     );
 };
 

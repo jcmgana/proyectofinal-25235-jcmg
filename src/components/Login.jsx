@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
     const [user, setUser] = useState("");
@@ -13,9 +14,11 @@ const Login = () => {
         e.preventDefault();
         if (user === "admin" && pass === "1234") {
             login();
+            toast.success("¡Bienvenido! Sesión iniciada con éxito.");
             navigate("/crudproductos");
         } else {
-            alert("Usuario o contraseña incorrectos");
+            toast.error("Usuario y/o claves incorrectas. Inténtalo de nuevo.");
+            console.error(error);
         }
     };
 

@@ -1,4 +1,3 @@
-import React from "react"; 
 import "../styles/Boton.css"; // Importa los estilos específicos para este componente
 
 /* Componente Boton

@@ -1,31 +1,27 @@
-import React, { useState } from 'react';
-import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Container, Form, Button, Row, Col, Alert } from "react-bootstrap";
 
-/**
- * Componente de Formulario de Contacto
- * Implementa manejo de estado para los campos y validación básica.
- */
 const Contacto = () => {
     // 1. Estado para almacenar los datos del formulario
     const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
     });
 
     // 2. Estado para manejar la respuesta del formulario (éxito o error)
-    const [status, setStatus] = useState(null); // null, 'success', 'error'
+    const [status, setStatus] = useState(null);
     const [errors, setErrors] = useState({});
 
     // Maneja el cambio en cualquier campo de entrada
     const handleChange = (e) => {
         const { id, value } = e.target;
-        setFormData(prev => ({ ...prev, [id]: value }));
-        
+        setFormData((prev) => ({ ...prev, [id]: value }));
+
         // Limpiar error tan pronto como el usuario comience a escribir
         if (errors[id]) {
-            setErrors(prev => {
+            setErrors((prev) => {
                 const newErrors = { ...prev };
                 delete newErrors[id];
                 return newErrors;
@@ -57,25 +53,22 @@ const Contacto = () => {
     // Maneja el envío del formulario
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         // 3. Ejecutar validación
         if (!validate()) {
-            setStatus('error');
+            setStatus("error");
             return;
         }
 
-        // Simulación de envío de datos (aquí iría tu lógica de API real)
         console.log("Datos enviados:", formData);
 
         // Simular éxito después de 1 segundo
         setTimeout(() => {
-            setStatus('success');
-            setFormData({ name: '', email: '', subject: '', message: '' }); // Limpiar formulario
+            setStatus("success");
+            setFormData({ name: "", email: "", subject: "", message: "" }); // Limpiar formulario
             setErrors({}); // Asegurarse de limpiar errores anteriores
         }, 1000);
 
-        // Puedes simular un error aquí si es necesario:
-        // setStatus('error');
     };
 
     return (
@@ -83,22 +76,36 @@ const Contacto = () => {
             <Row className="justify-content-center">
                 <Col md={8} lg={6}>
                     <div className="bg-light p-4 rounded shadow-lg">
-                        <h2 className="text-center mb-4 text-primary">Contáctanos</h2>
+                        <h2 className="text-center mb-4 text-primary">
+                            Contáctanos
+                        </h2>
                         <p className="text-center text-muted mb-4">
-                            Estamos aquí para ayudarte. Por favor, completa el siguiente formulario.
+                            Estamos aquí para ayudarte. Por favor, completa el
+                            siguiente formulario.
                         </p>
 
                         {/* Mensajes de estado */}
-                        {status === 'success' && (
-                            <Alert variant="success" onClose={() => setStatus(null)} dismissible>
-                                ¡Mensaje enviado con éxito! Te responderemos pronto.
+                        {status === "success" && (
+                            <Alert
+                                variant="success"
+                                onClose={() => setStatus(null)}
+                                dismissible
+                            >
+                                ¡Mensaje enviado con éxito! Te responderemos
+                                pronto.
                             </Alert>
                         )}
-                        {status === 'error' && Object.keys(errors).length > 0 && (
-                            <Alert variant="danger" onClose={() => setStatus(null)} dismissible>
-                                Por favor, corrige los errores en el formulario antes de enviar.
-                            </Alert>
-                        )}
+                        {status === "error" &&
+                            Object.keys(errors).length > 0 && (
+                                <Alert
+                                    variant="danger"
+                                    onClose={() => setStatus(null)}
+                                    dismissible
+                                >
+                                    Por favor, corrige los errores en el
+                                    formulario antes de enviar.
+                                </Alert>
+                            )}
 
                         <Form onSubmit={handleSubmit} noValidate>
                             {/* Campo Nombre */}
@@ -164,8 +171,8 @@ const Contacto = () => {
 
                             {/* Botón de Envío */}
                             <div className="d-grid">
-                                <Button 
-                                    variant="primary" 
+                                <Button
+                                    variant="primary"
                                     type="submit"
                                     size="lg"
                                 >

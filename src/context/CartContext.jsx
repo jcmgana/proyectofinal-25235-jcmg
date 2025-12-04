@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from "react";
+import { toast } from "react-toastify";
 
 // 1. Crear el Contexto
 export const CartContext = createContext();
@@ -7,6 +8,7 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
     const [carritoItems, setItemsCarrito] = useState([]);
     const MAX_CANTIDAD = 10; // Cantidad máxima permitida por producto
+    const carritoVacio = carritoItems.length === 0;
 
     const handleIncrementarCantidad = (productoId) => {
         setItemsCarrito((prevItems) =>
@@ -31,7 +33,7 @@ export const CartProvider = ({ children }) => {
                     mensaje = `¡Atención! Ya tienes el máximo (${MAX_CANTIDAD}) de "${
                         producto.title || producto.nombre
                     }" en el carrito.`;
-                    alert(mensaje);
+                    toast.warning(mensaje);
                     return;
                 }
 
@@ -46,7 +48,8 @@ export const CartProvider = ({ children }) => {
                 );
 
                 mensaje = `Solo se pudieron agregar ${cantidadASumar} unidad(es) de "${
-                    producto.title || producto.nombre}". Límite total alcanzado (${MAX_CANTIDAD}).`;
+                    producto.title || producto.nombre
+                }". Límite total alcanzado (${MAX_CANTIDAD}).`;
             } else {
                 setItemsCarrito((prevItems) =>
                     prevItems.map((item) =>
@@ -56,7 +59,8 @@ export const CartProvider = ({ children }) => {
                     )
                 );
                 mensaje = `Se han agregado ${cantidadAAgregar} unidad(es) más de "${
-                    producto.title || producto.nombre }" al carrito.`;
+                    producto.title || producto.nombre
+                }" al carrito.`;
             }
         } else {
             nuevaCantidad = Math.min(cantidadAAgregar, MAX_CANTIDAD);
@@ -64,11 +68,11 @@ export const CartProvider = ({ children }) => {
                 ...carritoItems,
                 { ...producto, cantidad: nuevaCantidad },
             ]);
-            mensaje = `Se ha agregado "${
+            mensaje = `Se han agregado ${cantidadAAgregar} unidad(es) más de "${
                 producto.title || producto.nombre
             }" al carrito.`;
         }
-        alert(mensaje);
+        toast.success(mensaje);
     };
 
     // Calcula el total de ítems en el carrito
@@ -79,12 +83,12 @@ export const CartProvider = ({ children }) => {
 
     const handleVaciarCarrito = () => {
         setItemsCarrito([]);
-        alert("El carrito ha sido vaciado.");
+        toast.info("El carrito ha sido vaciado.");
     };
 
     const handleFinalizarCompra = () => {
         setItemsCarrito([]);
-        alert("¡Gracias por su compra!");
+        toast.success("¡Compra realizada con éxito!");
     };
 
     const handleDecrementarCantidad = (productoId) => {
@@ -108,6 +112,7 @@ export const CartProvider = ({ children }) => {
     // 3. Objeto de Valor a Compartir
     const contextValue = {
         carritoItems,
+        carritoVacio,
         totalItems,
         handleAgregarAlCarrito,
         handleIncrementarCantidad,
